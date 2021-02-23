@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/game.css">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@1&display=swap" rel="stylesheet">
+</head>
+<body>
+
+	<header>
+		<h1>Guess the word game</h1>
+	</header>
+
+	<section>
+		<div class="gameArea">
+			<h3 class="msg"></h3>
+			<input type="text" name="" class="hidden">
+			<button class="btn">Click here to start</button>
+		</div>
+	</section>
+
+	<script type="text/javascript">
+		
+		const msg = document.querySelector('.msg');
+		const guess = document.querySelector('input');
+		const btn = document.querySelector('.btn');		
+		let play = false;
+		let newWords = '';
+		let randWods = '';
+
+		let arrWord = ['beautiful', 'tasty', 'yummy', 'pumpkin', 'dainty', 'choosy', 'selective', 'discerning', 'nice', 'fine', 'quality', 'high' ];
+
+		const creatNewWord = () => {
+			//console.log(arrWord);
+			let ranNum = Math.floor(Math.random() * arrWord.length);
+			//console.log(ranNum);
+			let newTemWords = arrWord[ranNum];
+			//console.log(newTemWords.split(''))
+			return newTemWords;
+		}
+
+		const scramleWords = (arr) => {
+
+			for(let i = arr.length-1; i>=0; i--){
+				let temp = arr[i];
+				//console.log(temp);
+
+				let j = Math.floor(Math.random()*(i+1));
+				// console.log(i);
+				// console.log(j);
+
+				// below code is doing swap
+
+				arr[i] = arr[j];
+				arr[j] = temp;
+
+				return arr;
+			}
+
+		
+
+		}
+
+		btn.addEventListener('click', function(){
+			if(!play){
+				play = true;
+				btn.innerHTML = "Guss";
+				guess.classList.toggle('hidden');
+				newWords = creatNewWord();
+				randWods = scramleWords(newWords.split("")).join('');
+				//console.log(randWods.join(''));
+				msg.innerHTML = `Gess the word: ${randWods} `;
+			}else{
+				let userInput = guess.value;
+				if(userInput === newWords){
+					//console.log('Correct');
+					play = false;
+					msg.innerHTML = `Awesome it's Correct. it is ${newWords}.`;
+					btn.innerHTML = "Start Again";
+					guess.classList.toggle('hidden');
+					guess.value = "";
+
+				}else{
+					msg.innerHTML = `Sorry boss it's incorrect, please try again ${randWods}.`;
+				}
+			}
+		});
+
+
+
+
+	</script>
+
+</body>
+</html>
